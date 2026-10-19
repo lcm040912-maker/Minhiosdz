@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>MINH IOS - Kích hoạt bản quyền</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+body{background:#0a0d14;color:#fff;min-height:100vh;padding:18px}
+.header{text-align:center;padding:20px 0 14px}
+.header h1{font-size:36px;font-weight:900;letter-spacing:2px}
+.header h1 span:first-child{color:#fff}
+.header h1 span:last-child{color:#2f6bff}
+.header p{color:#8a90a3;font-size:13px;margin-top:6px;font-weight:600}
+.card{background:#151a27;border:1px solid #212738;border-radius:18px;padding:16px;margin-top:18px}
+.step{display:flex;gap:10px;margin:12px 0}
+.num{width:26px;height:26px;background:#1f2638;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#c2c8d8;flex-shrink:0}
+.step p{font-size:13px;color:#a2a9bd;line-height:1.4}
+.step b{color:#f9d36a}
+.input-box{margin-top:14px}
+.label{font-size:11px;letter-spacing:1px;color:#8a90a3;font-weight:800;margin-bottom:8px}
+.field{display:flex;background:#0a0d14;border:1px solid #212738;border-radius:14px;padding:6px;align-items:center}
+.field input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:15px;font-weight:600;padding:10px;letter-spacing:1px}
+.field button{background:#212738;border:none;color:#dbe1f0;padding:10px 16px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer}
+.btn-active{width:100%;background:#2f6bff;color:#fff;border:none;border-radius:16px;padding:16px;font-size:16px;font-weight:900;letter-spacing:1px;margin-top:18px;box-shadow:0 10px 30px rgba(47,107,255,0.4);cursor:pointer}
+.note{background:#151a27;border:1px solid #212738;border-radius:16px;padding:14px;margin-top:16px;font-size:12px;color:#a2a9bd;line-height:1.5}
+.note b{color:#f9d36a}
+.footer{text-align:center;color:#4a5166;font-size:11px;margin:22px 0}
+.ok{color:#00ff88;text-align:center;margin-top:10px;font-weight:800;display:none}
+.fail{color:#ff4a6b;text-align:center;margin-top:10px;font-weight:800;display:none}
+</style>
+</head>
+<body>
+<div class="header">
+<h1><span>MINH</span><span>IOS</span></h1>
+<p>Kích hoạt bản quyền — dán MÃ MÁY + KEY</p>
+</div>
+
+<div class="card">
+<div class="step"><div class="num">1</div><p>Mở game → bấm icon <b>M</b> góc trên trái → tab <b>KEY</b>.</p></div>
+<div class="step"><div class="num">2</div><p>Bấm <b>COPY MÃ MÁY</b> rồi <b>DÁN</b> vào ô MÃ MÁY bên dưới.</p></div>
+<div class="step"><div class="num">3</div><p>Dán <b>KEY</b> đã mua → bấm <b>KÍCH HOẠT</b>.</p></div>
+<div class="step"><div class="num">4</div><p>Xong! Mở lại game là dùng được (không cần làm gì thêm).</p></div>
+</div>
+
+<div class="card">
+<div class="input-box">
+<div class="label">MÃ MÁY</div>
+<div class="field">
+<input id="machine" placeholder="XXXX-XXXX-XXXX-XXXX">
+<button onclick="pasteMachine()">DÁN</button>
+</div>
+</div>
+<div class="input-box">
+<div class="label">KEY</div>
+<div class="field">
+<input id="key" placeholder="XXXX-XXXX-XXXX-XXXX">
+<button onclick="pasteKey()">DÁN</button>
+</div>
+</div>
+<button class="btn-active" onclick="activate()">KÍCH HOẠT</button>
+<div class="ok" id="ok">✅ KÍCH HOẠT THÀNH CÔNG - MỞ LẠI GAME ĐI!</div>
+<div class="fail" id="fail">❌ KEY SAI HOẶC HẾT HẠN - LIÊN HỆ ADMIN</div>
+</div>
+
+<div class="note">
+Mỗi key dùng cho <b>1 máy</b>. Đổi máy / cài lại máy mới → liên hệ admin cấp lại (mất ~1 phút). Key hết hạn hoặc bị khoá sẽ không kích hoạt được — liên hệ admin để gia hạn.
+</div>
+
+<div class="footer">MinhIOS • lcm040912-maker.github.io/my-app</div>
+
+<script>
+// ===== DANH SÁCH KEY CỦA BẠN - BẠN TỰ THÊM VÀO ĐÂY =====
+const KEYS = [
+  "MINH-IOS-VIP-1234",
+  "MINHIOS-2024-PRO1",
+  "TEST-KEY-8888",
+  "MINH-1234-5678-9999"
+];
+
+async function pasteMachine(){
+  try{ const t=await navigator.clipboard.readText(); document.getElementById('machine').value=t; }catch{ alert('Giữ và dán thủ công nhé'); }
+}
+async function pasteKey(){
+  try{ const t=await navigator.clipboard.readText(); document.getElementById('key').value=t; }catch{ alert('Giữ và dán thủ công nhé'); }
+}
+function activate(){
+  const machine=document.getElementById('machine').value.trim();
+  const key=document.getElementById('key').value.trim();
+  const ok=document.getElementById('ok');
+  const fail=document.getElementById('fail');
+  ok.style.display='none'; fail.style.display='none';
+  if(!machine || !key){ alert('Dán đủ MÃ MÁY và KEY'); return; }
+  // Check key có trong danh sách không
+  if(KEYS.includes(key)){
+    ok.style.display='block';
+    // Lưu lại máy đã kích hoạt
+    localStorage.setItem('minhios_machine', machine);
+    localStorage.setItem('minhios_key', key);
+    // Sau này bạn có thể làm check 1 máy 1 key chặt hơn
+  }else{
+    fail.style.display='block';
+  }
+}
+</script>
+</body>
+</html>
